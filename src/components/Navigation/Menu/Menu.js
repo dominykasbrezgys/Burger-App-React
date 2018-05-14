@@ -5,7 +5,9 @@ const menu = (props) =>(
     <div 
     className ={classes.Menu}
     onClick={props.clicked}>
-        MENU
+        <div></div>
+        <div></div>
+        <div></div>
     </div>
 )
 
