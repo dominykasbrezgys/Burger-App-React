@@ -6,7 +6,7 @@ import Menu from '../Menu/Menu'
 
 const toolbar = (props) =>(
     <header className={classes.Toolbar}>
-        <Menu clicked={props.drawerOpen}/>
+        <Menu clicked={props.drawerToggle}/>
         <Logo height='80%'/>
         <nav className={classes.DesktopOnly}>
             <NavigationItems/>

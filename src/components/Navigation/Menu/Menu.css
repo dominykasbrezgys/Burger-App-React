@@ -1,5 +1,6 @@
 .Menu {
     display: flex;
+    color: white;
 }
 
 @media (min-width:500px){
