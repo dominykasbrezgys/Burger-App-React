@@ -2,8 +2,9 @@ import React,{Component} from 'react';
 import Aux from '../../hoc/Aux/Aux';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
-import Modal from '../../components/UI/Modal/Modal'
-import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
+import axios from '../../axios-orders'
 //import classes from './BurgerBuilder.css'
 
 const INGREDIENT_PRICES = {
@@ -80,7 +81,27 @@ class BurgerBuilder extends Component{
     }
 
     purchaseContinueHandler = () => {
-        alert('YOU continure');
+        //POST request
+
+        const order = {
+            ingredients: this.state.ingredients,
+            price: this.state.totalPrice,//Price should be calculated on the server
+            customer: {
+                name: 'Dom',
+                address: {
+                    street: 'testStreet',
+                    zipCode: '4123',
+                    country: 'UK'
+                },
+                email: 'email@email.com',
+            },
+            deliveryMethod: 'fastest'
+        };
+        axios.post('/orders.json',order)
+            .then(response =>{
+                console.log(response)
+            })
+            .catch(error => console.log(error));
     }
 
     render(){
