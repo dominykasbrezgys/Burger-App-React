@@ -1,4 +1,4 @@
-.Menu {
+.TripleBar {
     width: 40px;
     height: 100%;
     display: flex;
@@ -10,14 +10,14 @@
     cursor: pointer;
 }
 
-.Menu div {
+.TripleBar div {
     width: 90%;
     height: 3px;
     background-color: white;
 }
 
 @media (min-width: 500px) {
-    .Menu {
+    .TripleBar {
         display: none;
     }
 }

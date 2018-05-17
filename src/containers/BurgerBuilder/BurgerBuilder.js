@@ -136,8 +136,7 @@ class BurgerBuilder extends Component{
                     disabled = {disabledInfo}
                     purchasable = {this.state.canBeOrdered}
                     purchase = {this.purchaseHandler}
-                    price = {this.state.totalPrice}
-                    />
+                    price = {this.state.totalPrice}/>
             </Aux>
         );
     }

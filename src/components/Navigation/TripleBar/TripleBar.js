@@ -1,9 +1,9 @@
 import React from 'react';
-import classes from './Menu.css';
+import classes from './TripleBar.css';
 
-const menu = (props) =>(
+const tripleBar = (props) =>(
     <div 
-    className ={classes.Menu}
+    className ={classes.TripleBar}
     onClick={props.clicked}>
         <div></div>
         <div></div>
@@ -11,4 +11,4 @@ const menu = (props) =>(
     </div>
 )
 
-export default menu;
+export default tripleBar;
