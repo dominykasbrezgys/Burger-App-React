@@ -1,7 +1,7 @@
 .MenuGrid {
     display: flex;
     flex-flow: row wrap;
-    justify-content: left;
+    justify-content: center;
     width: 90%;
     margin: auto;
 }

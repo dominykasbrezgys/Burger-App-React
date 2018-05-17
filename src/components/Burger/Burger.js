@@ -2,6 +2,7 @@ import React from 'react';
 import classes from './Burger.css'
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient'
 const burger = (props) =>{
+    console.log(props.ingredients);
     //Transforming ingredients object obtained from props into an array of <BurgerIngrendient> elements
     let transformedIngredients = Object.keys(props.ingredients)
         .map(ingredientKey => {
@@ -17,8 +18,13 @@ const burger = (props) =>{
     if(transformedIngredients.length === 0){
         transformedIngredients = <p>Please start adding ingredients!</p>
     }
+
+    let burgerStyle = classes.Burger;
+    if(props.forGrid){
+        burgerStyle = classes.BurgerInMenuGrid
+    }
     return(
-        <div className={classes.Burger}>
+        <div className={burgerStyle} >
         <BurgerIngredient type='bread-top' />
         {transformedIngredients}
         <BurgerIngredient type='bread-bottom' />

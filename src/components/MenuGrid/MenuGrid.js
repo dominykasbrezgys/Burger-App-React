@@ -8,8 +8,6 @@ const MenuGrid = () =>{
             <MenuItem/>
             <MenuItem/>
             <MenuItem/>
-            <MenuItem/>
-            <MenuItem/>
         </section>
     );
 }
