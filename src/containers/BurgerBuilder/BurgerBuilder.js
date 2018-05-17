@@ -4,7 +4,7 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
-import axios from '../../axios-orders';
+import axios from '../../axios-firebase';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import networkErrorHandler from '../../hoc/networkErrorHandler/networkErrorHandler';
 //import classes from './BurgerBuilder.css'
@@ -83,24 +83,13 @@ class BurgerBuilder extends Component{
         this.setState({purchasing:false});
     }
 
-    purchaseContinueHandler = () => {
+    addToMenuHandler = () => {
         //POST request
         this.setState({loading:true});
-        const order = {
+        const burger = {
             ingredients: this.state.ingredients,
-            price: this.state.totalPrice,//Price should be calculated on the server
-            customer: {
-                name: 'Dom',
-                address: {
-                    street: 'testStreet',
-                    zipCode: '4123',
-                    country: 'UK'
-                },
-                email: 'email@email.com',
-            },
-            deliveryMethod: 'fastest'
         };
-        axios.post('/orders.json',order)
+        axios.post('/burgers.json',burger)
             .then(response =>{
                 this.setState({loading: false, purchasing: false});
             })
@@ -118,7 +107,7 @@ class BurgerBuilder extends Component{
             ingredients={this.state.ingredients} 
             totalPrice = {this.state.totalPrice}
             cancel={this.purchaseCancelHandler}
-            continue={this.purchaseContinueHandler}/>;
+            continue={this.addToMenuHandler}/>;
 
         if (this.state.loading){
             orderSummary = <Spinner/>
