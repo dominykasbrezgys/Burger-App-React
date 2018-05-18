@@ -8,6 +8,8 @@ const MenuGrid = (props) =>{
         return (
             <MenuItem 
                 key={index}
+                name = {burger.burgerName}
+                ingredients = {burger.ingredients}
             />)
     });
 

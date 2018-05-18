@@ -2,17 +2,11 @@ import React from 'react';
 import classes from './MenuItem.css';
 import Burger from '../../Burger/Burger';
 
-const MenuItem = () =>{
-    const ingredients = {
-        salad: 1,
-        bacon: 1,
-        cheese: 1,
-        meat: 1
-    }
+const MenuItem = (props) =>{
     return(
         <article className={classes.MenuItem}>
-            <h1>Burger</h1>
-            <Burger ingredients={ingredients} forGrid/>
+            <h1>{props.name}</h1>
+            <Burger ingredients={props.ingredients} forGrid/>
         </article>
     );
 }

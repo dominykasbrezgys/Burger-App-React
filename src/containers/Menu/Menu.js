@@ -13,7 +13,6 @@ class Menu extends Component {
         axios.get('/burgers.json')
         .then(res =>{
             this.setState({burgers:res.data,loading:false})
-
         })
         .catch(error => console.log(error));
     }
