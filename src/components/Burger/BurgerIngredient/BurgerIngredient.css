@@ -105,6 +105,14 @@
     border-radius: 20px;
 }
 
+.BreadMiddle {
+    width: 80%;
+    height: 5%;
+    margin: 2% auto;
+    background: linear-gradient(#F08E4A, #e27b36);
+    border-radius: 20px;
+}
+
 .Bacon {
     width: 80%;
     height: 3%;

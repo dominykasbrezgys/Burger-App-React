@@ -25,9 +25,10 @@ class OrderSummary extends Component{
                     {summary}
                 </ul>
                 <p>Total: <strong> {this.props.totalPrice.toFixed(2)} € </strong> </p>
-                <p>Checkout?</p>
+                Burger Name: <input type='text' onChange={this.props.burgerNameHandler} />
+                <p>Add to menu?</p>
                 <Button buttonType='Danger' clicked={this.props.cancel}>CANCEL</Button>
-                <Button buttonType='Success' clicked={this.props.continue}>CHECKOUT</Button>
+                <Button buttonType='Success' clicked={this.props.continue}>ADD</Button>
             </Aux>
         );
     }

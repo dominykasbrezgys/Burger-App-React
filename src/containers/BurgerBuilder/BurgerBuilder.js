@@ -12,6 +12,7 @@ import networkErrorHandler from '../../hoc/networkErrorHandler/networkErrorHandl
 const INGREDIENT_PRICES = {
     salad: 0.5,
     bacon: 0.7,
+    breadMiddle: 0.1,
     meat: 1.3,
     cheese:0.4
 };
@@ -21,16 +22,18 @@ class BurgerBuilder extends Component{
         ingredients: {
             salad: 0,
             bacon: 0,
+            breadMiddle: 0,
             cheese: 0,
             meat: 0
         },
         totalPrice : 4,
-        canBeOrdered: false,
-        purchasing: false,
+        burgerName: '',
+        canBeAdded: false,
+        addingToMenu: false,
         loading: false
     }
 
-    updatePurchaseState (ingredients) {
+    updateAddingToMenuState (ingredients) {
         const sum = Object.keys(ingredients)
             .map(key => {
                 return ingredients[key];
@@ -38,7 +41,7 @@ class BurgerBuilder extends Component{
             .reduce((sum,el)=>{
                 return sum + el;
             },0);
-        this.setState({canBeOrdered: sum > 0 });
+        this.setState({canBeAdded: sum > 0 });
     }
 
     addIngredientHandler = (type) => {
@@ -54,7 +57,7 @@ class BurgerBuilder extends Component{
         const newPrice = oldPrice +INGREDIENT_PRICES[type];
 
         this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
-        this.updatePurchaseState(updatedIngredients);
+        this.updateAddingToMenuState(updatedIngredients);
     }
 
     removeIngredientHandler = (type) => {
@@ -71,29 +74,35 @@ class BurgerBuilder extends Component{
             const newPrice = oldPrice - INGREDIENT_PRICES[type];
     
             this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
-            this.updatePurchaseState(updatedIngredients);
+            this.updateAddingToMenuState(updatedIngredients);
         }
     }
 
-    purchaseHandler = () => {
-        this.setState({purchasing:true});
+    addingHandler = () => {
+        this.setState({addingToMenu:true});
     }
 
-    purchaseCancelHandler = () =>{
-        this.setState({purchasing:false});
+    addingCancelHandler = () =>{
+        this.setState({addingToMenu:false});
     }
 
     addToMenuHandler = () => {
         //POST request
         this.setState({loading:true});
         const burger = {
-            ingredients: this.state.ingredients,
+            burgerName: this.state.burgerName,
+            ingredients: this.state.ingredients
         };
         axios.post('/burgers.json',burger)
             .then(response =>{
-                this.setState({loading: false, purchasing: false});
+                this.setState({loading: false, addingToMenu: false});
             })
-            .catch(error => this.setState({loading: false, purchasing: false}) );
+            .catch(error => this.setState({loading: false, addingToMenu: false}) );
+    }
+
+    nameChangedHandler = (event) =>{
+        const newBurgerName = event.target.value;
+        this.setState({burgerName: newBurgerName });
     }
 
     render(){
@@ -106,7 +115,8 @@ class BurgerBuilder extends Component{
         let orderSummary = <OrderSummary 
             ingredients={this.state.ingredients} 
             totalPrice = {this.state.totalPrice}
-            cancel={this.purchaseCancelHandler}
+            burgerNameHandler ={this.nameChangedHandler}
+            cancel={this.addingCancelHandler}
             continue={this.addToMenuHandler}/>;
 
         if (this.state.loading){
@@ -115,7 +125,7 @@ class BurgerBuilder extends Component{
 
         return(
             <Aux>
-                <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler} >
+                <Modal show={this.state.addingToMenu} modalClosed={this.addingCancelHandler} >
                     {orderSummary}
                 </Modal>
                 <Burger ingredients={this.state.ingredients} />
@@ -123,8 +133,8 @@ class BurgerBuilder extends Component{
                     addIngredient ={this.addIngredientHandler}
                     removeIngredient ={this.removeIngredientHandler}
                     disabled = {disabledInfo}
-                    purchasable = {this.state.canBeOrdered}
-                    purchase = {this.purchaseHandler}
+                    canBeAdded = {this.state.canBeAdded}
+                    addToMenu = {this.addingHandler}
                     price = {this.state.totalPrice}/>
             </Aux>
         );
