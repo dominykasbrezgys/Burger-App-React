@@ -22,10 +22,10 @@ const buildControls = (props) => (
             disabled = {props.disabled[ctrl.type]}/>
             ))}
         <button 
-            className={classes.OrderButton} 
+            className={classes.AddToMenuButton} 
             disabled={!props.canBeAdded}
             onClick={props.addToMenu}>
-            ORDER NOW</button>
+            ADD TO MENU</button>
     </div>
 );
 

@@ -2,11 +2,7 @@ import React,{Component} from 'react';
 import Aux from '../../../hoc/Aux/Aux';
 import Button from '../../UI/Button/Button'
 
-class OrderSummary extends Component{
-
-    // componentWillUpdate() {
-    //     console.log('[OrderSummary] WillUpdate');
-    // }
+class BurgerSummary extends Component{
 
     render(){
         const summary = Object.keys(this.props.ingredients)
@@ -33,4 +29,4 @@ class OrderSummary extends Component{
     }
 }
 
-export default OrderSummary;
+export default BurgerSummary;

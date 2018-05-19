@@ -3,11 +3,10 @@ import Aux from '../../hoc/Aux/Aux';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
-import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
+import BurgerSummary from '../../components/Burger/BurgerSummary/BurgerSummary';
 import axios from '../../axios-firebase';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import networkErrorHandler from '../../hoc/networkErrorHandler/networkErrorHandler';
-//import classes from './BurgerBuilder.css'
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -112,7 +111,7 @@ class BurgerBuilder extends Component{
         for(let key in disabledInfo){
             disabledInfo[key] = disabledInfo[key]<=0;
         }
-        let orderSummary = <OrderSummary 
+        let burgerSummary = <BurgerSummary 
             ingredients={this.state.ingredients} 
             totalPrice = {this.state.totalPrice}
             burgerNameHandler ={this.nameChangedHandler}
@@ -120,13 +119,13 @@ class BurgerBuilder extends Component{
             continue={this.addToMenuHandler}/>;
 
         if (this.state.loading){
-            orderSummary = <Spinner/>
+            burgerSummary = <Spinner/>
         }
 
         return(
             <Aux>
                 <Modal show={this.state.addingToMenu} modalClosed={this.addingCancelHandler} >
-                    {orderSummary}
+                    {burgerSummary}
                 </Modal>
                 <Burger ingredients={this.state.ingredients} />
                 <BuildControls
