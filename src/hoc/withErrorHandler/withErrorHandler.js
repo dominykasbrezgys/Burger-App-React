@@ -3,7 +3,7 @@ import Modal from '../../components/UI/Modal/Modal';
 import Aux from '../Aux/Aux';
 
 
-const networkErrorHandler = (WrappedComponent, axios) =>{
+const withErrorHandler = (WrappedComponent, axios) =>{
     return class extends Component {
         state ={
             error: null
@@ -37,4 +37,4 @@ const networkErrorHandler = (WrappedComponent, axios) =>{
     }
 }
 
-export default networkErrorHandler;
+export default withErrorHandler;

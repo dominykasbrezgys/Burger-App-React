@@ -3,11 +3,11 @@ import classes from './NavigationItems.css';
 import NavigationItem from './NavigationItem/NavigationItem'
 const navigationItems = () =>(
     <ul className={classes.NavigationItems}>
-        <NavigationItem link='/' active>
-            Menu
-        </NavigationItem>
         <NavigationItem link='/'>
             Burger Builder
+        </NavigationItem>
+        <NavigationItem link='/menu' >
+            Menu
         </NavigationItem>
     </ul>
 );

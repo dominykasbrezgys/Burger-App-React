@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import MenuGrid from '../../components/MenuGrid/MenuGrid';
 import Spinner from '../../components/UI/Spinner/Spinner'
 import axios from '../../axios-firebase';
-import networkErrorHandler from '../../hoc/networkErrorHandler/networkErrorHandler';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 class Menu extends Component {
     state = {
@@ -32,9 +32,16 @@ class Menu extends Component {
     componentDidMount(){
         axios.get('/burgers.json')
         .then(res =>{
-            this.setState({burgers:res.data,loading:false})
+            const fetchedBurgers = [];
+            for (let key in res.data){
+                fetchedBurgers.push({
+                    ...res.data[key],
+                    id: key
+                });
+            }
+            this.setState({burgers: fetchedBurgers,loading:false})
         })
-        .catch(error => console.log(error));
+        .catch(error => this.setState({loading:false}));
     }
 
     render(){
@@ -43,4 +50,4 @@ class Menu extends Component {
     }
 }
 
-export default networkErrorHandler(Menu,axios);
+export default withErrorHandler(Menu,axios);

@@ -6,14 +6,14 @@ import Modal from '../../components/UI/Modal/Modal';
 import BurgerSummary from '../../components/Burger/BurgerSummary/BurgerSummary';
 import axios from '../../axios-firebase';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import networkErrorHandler from '../../hoc/networkErrorHandler/networkErrorHandler';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 const INGREDIENT_PRICES = {
-    salad: 0.5,
-    bacon: 0.7,
+    salad: 0.4,
+    bacon: 0.6,
     breadMiddle: 0.1,
-    meat: 1.3,
-    cheese:0.4
+    meat: 1.0,
+    cheese:0.5
 };
 
 class BurgerBuilder extends Component{
@@ -25,7 +25,7 @@ class BurgerBuilder extends Component{
             cheese: 0,
             meat: 0
         },
-        totalPrice : 4,
+        totalPrice : 2,
         burgerName: '',
         canBeAdded: false,
         addingToMenu: false,
@@ -90,11 +90,13 @@ class BurgerBuilder extends Component{
         this.setState({loading:true});
         const burger = {
             burgerName: this.state.burgerName,
-            ingredients: this.state.ingredients
+            ingredients: this.state.ingredients,
+            price: this.state.totalPrice
         };
         axios.post('/burgers.json',burger)
             .then(response =>{
                 this.setState({loading: false, addingToMenu: false});
+                this.props.history.push('/menu');
             })
             .catch(error => this.setState({loading: false, addingToMenu: false}) );
     }
@@ -140,4 +142,4 @@ class BurgerBuilder extends Component{
     }
 }
 
-export default networkErrorHandler(BurgerBuilder, axios);
+export default withErrorHandler(BurgerBuilder, axios);

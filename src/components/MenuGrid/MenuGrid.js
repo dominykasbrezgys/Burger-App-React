@@ -6,28 +6,20 @@ import Burger from '../Burger/Burger';
 import Button from '../UI/Button/Button';
 
 const MenuGrid = (props) =>{
-
-    const burgers = Object.keys(props.burgers).map(bKey =>{
-        return (
-            <MenuItem key={bKey}>
-                <h1>{props.burgers[bKey].burgerName}</h1>
-                <Burger ingredients={props.burgers[bKey].ingredients} forGrid/>
-                <Button buttonType ='EatMe' clicked={()=>props.eatMe(bKey)}>
-                    Eat me
-                </Button>
-            </MenuItem>)
-    });
-
-    // const burgers = Object.values(props.burgers).map((burger,index) =>{
-
-    //     return (
-    //         <MenuItem 
-    //             key={index}>
-    //             <h1>{burger.burgerName}</h1>
-    //             <Burger ingredients={burger.ingredients} forGrid/> 
-    //         </MenuItem>)
-    // });
-
+    let burgers = null;
+    if(props.burgers){
+        burgers = props.burgers.map(burger =>{
+            return (
+                <MenuItem key={burger.id}>
+                    <h1>{burger.burgerName}</h1>
+                    <Burger ingredients={burger.ingredients} forGrid/>
+                    <p>Total: <strong> {burger.price.toFixed(2)} € </strong> </p>
+                    <Button buttonType ='EatMe' clicked={()=>props.eatMe(burger.id)}>
+                        Eat me
+                    </Button>
+                </MenuItem>)
+        })
+    }
     return (
         <section className={classes.MenuGrid}>
             {burgers}
