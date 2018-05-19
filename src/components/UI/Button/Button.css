@@ -1,23 +1,36 @@
 .Button {
-    background-color: transparent;
     border: none;
+    font: inherit;
     color: white;
     outline: none;
     cursor: pointer;
-    font: inherit;
     padding: 10px;
     margin: 10px;
-    font-weight: bold;
+    border-radius: 12px;
+    box-shadow: 2px 2px 2px #cccccc;
+    text-shadow: 1px 1px 3px #666666;
 }
 
 .Success {
-    color: #5C9210;
+    background-color: #5C9210;
 }
 
 .Danger {
-    color: #944317;
+    background-color: #cc3300;
 }
 
 .EatMe {
-    color: red;
+    background-color: #40A4C8;;
+}
+
+.Success:hover {
+    background-color: #82cf17;
+}
+
+.Danger:hover {
+    background-color: #ff794d;
+}
+
+.EatMe:hover {
+    background-color: #8bcce4;
 }

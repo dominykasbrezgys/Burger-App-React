@@ -6,10 +6,9 @@
     box-shadow: 0 2px 3px #ccc;
     margin: 10px;
     box-sizing: border-box;
-    cursor: pointer;
 }
 
 .MenuItem:hover,
 .MenuItem:active {
-    background-color: #C0DDF5;
+    background-color: #f2f2f2;;
 }

@@ -19,16 +19,15 @@ class OrderSummary extends Component{
 
         return (
             <Aux>
-                <h3>Your order: </h3>
-                <p>you have chosen the following ingredients:</p>
+                <h3>Your Burger: </h3>
                 <ul>
                     {summary}
                 </ul>
                 <p>Total: <strong> {this.props.totalPrice.toFixed(2)} € </strong> </p>
                 Burger Name: <input type='text' onChange={this.props.burgerNameHandler} />
                 <p>Add to menu?</p>
-                <Button buttonType='Danger' clicked={this.props.cancel}>CANCEL</Button>
                 <Button buttonType='Success' clicked={this.props.continue}>ADD</Button>
+                <Button buttonType='Danger' clicked={this.props.cancel}>CANCEL</Button>
             </Aux>
         );
     }
