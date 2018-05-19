@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import MenuGrid from '../../components/MenuGrid/MenuGrid';
 import Spinner from '../../components/UI/Spinner/Spinner'
 import axios from '../../axios-firebase';
+import networkErrorHandler from '../../hoc/networkErrorHandler/networkErrorHandler';
 
 class Menu extends Component {
     state = {
@@ -42,4 +43,4 @@ class Menu extends Component {
     }
 }
 
-export default Menu;
+export default networkErrorHandler(Menu,axios);
