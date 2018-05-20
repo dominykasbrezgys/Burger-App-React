@@ -11,6 +11,11 @@
     text-shadow: 1px 1px 3px #666666;
 }
 
+.Button:disabled,
+.Button:disabled:hover{
+    background-color: #cccccc
+}
+
 .Success {
     background-color: #5C9210;
 }
@@ -33,9 +38,4 @@
 
 .EatMe:hover {
     background-color: #8bcce4;
-}
-
-.Disabled,
-.Disabled:hover {
-    background-color: #cccccc;
 }
