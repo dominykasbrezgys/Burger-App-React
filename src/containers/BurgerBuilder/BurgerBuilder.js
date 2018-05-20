@@ -26,7 +26,11 @@ class BurgerBuilder extends Component{
             meat: 0
         },
         totalPrice : 2,
-        burgerName: '',
+        burgerNameInput: {
+            value:'',
+            isValid: false,
+            touched: false
+        },
         canBeAdded: false,
         addingToMenu: false,
         loading: false
@@ -82,7 +86,17 @@ class BurgerBuilder extends Component{
     }
 
     addingCancelHandler = () =>{
-        this.setState({addingToMenu:false});
+        const updatedBurgerNameInput = {
+            ...this.state.burgerNameInput
+        }
+        updatedBurgerNameInput.value = '';
+        updatedBurgerNameInput.isValid =  false;
+        updatedBurgerNameInput.touched = false;
+
+        this.setState({
+            addingToMenu: false,
+            burgerNameInput: updatedBurgerNameInput
+        });
     }
 
     addToMenuHandler = () => {
@@ -103,7 +117,14 @@ class BurgerBuilder extends Component{
 
     nameChangedHandler = (event) =>{
         const newBurgerName = event.target.value;
-        this.setState({burgerName: newBurgerName });
+        const updatedBurgerNameInput = {
+            ...this.state.burgerNameInput
+        }
+        updatedBurgerNameInput.value = newBurgerName;
+        updatedBurgerNameInput.isValid =  newBurgerName.trim() !== '';
+        updatedBurgerNameInput.touched = true;
+
+        this.setState({burgerNameInput: updatedBurgerNameInput });
     }
 
     render(){
@@ -118,7 +139,8 @@ class BurgerBuilder extends Component{
             totalPrice = {this.state.totalPrice}
             burgerNameHandler ={this.nameChangedHandler}
             cancel={this.addingCancelHandler}
-            continue={this.addToMenuHandler}/>;
+            continue={this.addToMenuHandler}
+            nameInput ={this.state.burgerNameInput}/>;
 
         if (this.state.loading){
             burgerSummary = <Spinner/>

@@ -22,7 +22,8 @@ class Menu extends Component {
                         'Ingredients: '+'\n'+
                         Object.keys(burger.ingredients).map(ingredientKey =>{
                             return ingredientKey+': '+burger.ingredients[ingredientKey]+'\n';
-                        }));
+                        })
+                    );
                 }
                 alert(alertMsg);
             })

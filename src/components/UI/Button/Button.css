@@ -34,3 +34,8 @@
 .EatMe:hover {
     background-color: #8bcce4;
 }
+
+.Disabled,
+.Disabled:hover {
+    background-color: #cccccc;
+}
