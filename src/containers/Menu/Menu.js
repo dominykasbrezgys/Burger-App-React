@@ -47,7 +47,9 @@ class Menu extends Component {
 
     render(){
         return this.state.loading ? <Spinner/> : 
-            <MenuGrid burgers = {this.state.burgers} eatMe ={this.eatMeHandler}/>
+            <MenuGrid 
+                burgers = {this.state.burgers} 
+                eatMe ={this.eatMeHandler} />
     }
 }
 
