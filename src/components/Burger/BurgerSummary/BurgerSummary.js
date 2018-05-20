@@ -17,7 +17,7 @@ class BurgerSummary extends Component{
         if( !this.props.nameInput.isValid && this.props.nameInput.touched){
             validationMsg = <p style={{color:'red'}}>Burger name can't be empty!</p>
         }
-    
+
         return (
             <Aux>
                 <h3>Your Burger: </h3>
@@ -25,7 +25,7 @@ class BurgerSummary extends Component{
                     {summary}
                 </ul>
                 <p>Total: <strong> {this.props.totalPrice.toFixed(2)} € </strong> </p>
-                <input type='text' onChange={this.props.burgerNameHandler}/>
+                <input type='text' onChange={this.props.burgerNameHandler} value={this.props.nameInput.value}/>
                 {validationMsg}
                 <p>Add to menu?</p>
                 <Button buttonType='Success' clicked={this.props.continue} isDisabled={!this.props.nameInput.isValid}>ADD</Button>

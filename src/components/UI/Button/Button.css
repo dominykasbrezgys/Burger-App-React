@@ -11,6 +11,12 @@
     text-shadow: 1px 1px 3px #666666;
 }
 
+.Button:disabled,
+.Button:disabled:hover{
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
 .Success {
     background-color: #5C9210;
 }
