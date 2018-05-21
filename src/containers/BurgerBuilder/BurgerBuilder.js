@@ -1,4 +1,6 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import Aux from '../../hoc/Aux/Aux';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
@@ -7,36 +9,20 @@ import BurgerSummary from '../../components/Burger/BurgerSummary/BurgerSummary';
 import axios from '../../axios-firebase';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-
-const INGREDIENT_PRICES = {
-    salad: 0.4,
-    bacon: 0.6,
-    breadMiddle: 0.1,
-    meat: 1.0,
-    cheese:0.5
-};
+import * as actionTypes from '../../store/actions';
 
 class BurgerBuilder extends Component{
     state = {
-        ingredients: {
-            salad: 0,
-            bacon: 0,
-            breadMiddle: 0,
-            cheese: 0,
-            meat: 0
-        },
-        totalPrice : 2,
         burgerNameInput: {
             value:'',
             isValid: false,
             touched: false
         },
-        canBeAdded: false,
         addingToMenu: false,
         loading: false
     }
 
-    updateAddingToMenuState (ingredients) {
+    canBeAdded (ingredients) {
         const sum = Object.keys(ingredients)
             .map(key => {
                 return ingredients[key];
@@ -44,41 +30,7 @@ class BurgerBuilder extends Component{
             .reduce((sum,el)=>{
                 return sum + el;
             },0);
-        this.setState({canBeAdded: sum > 0 });
-    }
-
-    addIngredientHandler = (type) => {
-        const oldCount = this.state.ingredients[type];
-        const updatedCount = oldCount+1;
-        //State must be changed in an immutable way
-        const updatedIngredients = {
-            ...this.state.ingredients
-        };
-        updatedIngredients[type] = updatedCount;
-
-        const oldPrice = this.state.totalPrice;
-        const newPrice = oldPrice +INGREDIENT_PRICES[type];
-
-        this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
-        this.updateAddingToMenuState(updatedIngredients);
-    }
-
-    removeIngredientHandler = (type) => {
-        const oldCount = this.state.ingredients[type];
-        if (oldCount !== 0){
-            const updatedCount = oldCount-1;
-            //State must be changed in an immutable way
-            const updatedIngredients = {
-                ...this.state.ingredients
-            };
-            updatedIngredients[type] = updatedCount;
-    
-            const oldPrice = this.state.totalPrice;
-            const newPrice = oldPrice - INGREDIENT_PRICES[type];
-    
-            this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
-            this.updateAddingToMenuState(updatedIngredients);
-        }
+         return sum > 0;
     }
 
     addingHandler = () => {
@@ -105,7 +57,7 @@ class BurgerBuilder extends Component{
         const burger = {
             burgerName: this.state.burgerName,
             ingredients: this.state.ingredients,
-            price: this.state.totalPrice
+            price: this.props.price
         };
         axios.post('/burgers.json',burger)
             .then(response =>{
@@ -129,14 +81,14 @@ class BurgerBuilder extends Component{
 
     render(){
         const disabledInfo = {
-            ...this.state.ingredients
+            ...this.props.ings
         }; 
         for(let key in disabledInfo){
             disabledInfo[key] = disabledInfo[key]<=0;
         }
         let burgerSummary = <BurgerSummary 
-            ingredients={this.state.ingredients} 
-            totalPrice = {this.state.totalPrice}
+            ingredients={this.props.ings} 
+            totalPrice = {this.props.price}
             burgerNameHandler ={this.nameChangedHandler}
             cancel={this.addingCancelHandler}
             continue={this.addToMenuHandler}
@@ -151,17 +103,31 @@ class BurgerBuilder extends Component{
                 <Modal show={this.state.addingToMenu} modalClosed={this.addingCancelHandler} >
                     {burgerSummary}
                 </Modal>
-                <Burger ingredients={this.state.ingredients} />
+                <Burger ingredients={this.props.ings} />
                 <BuildControls
-                    addIngredient ={this.addIngredientHandler}
-                    removeIngredient ={this.removeIngredientHandler}
+                    addIngredient ={this.props.onIngredientAdded}
+                    removeIngredient ={this.props.onIngredientRemoved}
                     disabled = {disabledInfo}
-                    canBeAdded = {this.state.canBeAdded}
+                    canBeAdded = {this.canBeAdded(this.props.ings)}
                     addToMenu = {this.addingHandler}
-                    price = {this.state.totalPrice}/>
+                    price = {this.props.price}/>
             </Aux>
         );
     }
 }
 
-export default withErrorHandler(BurgerBuilder, axios);
+const mapStateToProps = state => {
+    return {
+        ings: state.ingredients,
+        price: state.totalPrice
+    };
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onIngredientAdded: (ingName) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName: ingName}),
+        onIngredientRemoved: (ingName) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingName})
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));

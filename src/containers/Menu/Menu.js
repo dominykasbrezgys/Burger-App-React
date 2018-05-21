@@ -7,7 +7,7 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 class Menu extends Component {
     state = {
         burgers: [],
-        loading: true
+        loading: false
     }
 
     eatMeHandler = (burgerID) =>{
