@@ -8,6 +8,7 @@ import Modal from '../../components/UI/Modal/Modal';
 import BurgerSummary from '../../components/Burger/BurgerSummary/BurgerSummary';
 import axios from '../../axios-firebase';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import Success from '../../components/UI/Success/Success';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as burgerBuilderActions from '../../store/actions/index';
 
@@ -53,7 +54,7 @@ class BurgerBuilder extends Component{
         return(
             <Aux>
                 <Modal show={this.props.adding} modalClosed={this.props.onAddingToMenuCancelled} >
-                    {burgerSummary}
+                    {this.props.successfullyAdded ? <Success cancel={this.props.onAddingToMenuCancelled}/> : burgerSummary}
                 </Modal>
                 <Burger ingredients={this.props.ings} />
                 <BuildControls
@@ -74,7 +75,8 @@ const mapStateToProps = state => {
         price: state.burgerBuilder.totalPrice,
         burgerNameInput: state.burgerBuilder.burgerNameInput,
         adding: state.burgerBuilder.addingToMenu,
-        loading: state.burgerBuilder.loading
+        loading: state.burgerBuilder.loading,
+        successfullyAdded: state.burgerBuilder.successfullyAdded
     };
 }
 

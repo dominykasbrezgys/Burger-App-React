@@ -15,7 +15,8 @@ const initialState = {
             touched: false
         },
         addingToMenu: false,
-        loading: false
+        loading: false,
+        successfullyAdded: false
 }
 
 const INGREDIENT_PRICES = {
@@ -63,7 +64,8 @@ const reducer = (state=initialState, action) => {
                     isValid : false,
                     touched: false
                 },
-                addingToMenu: false
+                addingToMenu: false,
+                successfullyAdded: false
             };
         case actionTypes.ENABLE_ADDING_TO_MENU:
             return {
@@ -78,7 +80,15 @@ const reducer = (state=initialState, action) => {
         case actionTypes.ADD_TO_MENU_SUCCESS:
             return {
                 ...state,
-                loading: false
+                ingredients: {
+                    salad: 0,
+                    bacon: 0,
+                    breadMiddle: 0,
+                    cheese: 0,
+                    meat: 0
+                },
+                loading: false,
+                successfullyAdded: true
             };
         case actionTypes.ADD_TO_MENU_FAIL:
             return {

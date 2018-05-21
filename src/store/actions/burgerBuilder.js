@@ -49,7 +49,7 @@ export const addToMenuFail= (error) => {
     }
 }
 
-export const addToMenuStart=()=>{
+export const addToMenuStart= () =>{
     return{
         type: actionTypes.ADD_TO_MENU_START
     }
@@ -60,7 +60,6 @@ export const addToMenu = (burgerData) => {
         dispatch( addToMenuStart() );
         axios.post('/burgers.json',burgerData)
             .then(response =>{
-                dispatch( cancelAddingToMenu() );
                 dispatch( addToMenuSuccess() );
             })
             .catch(error => dispatch(addToMenuFail(error)) );

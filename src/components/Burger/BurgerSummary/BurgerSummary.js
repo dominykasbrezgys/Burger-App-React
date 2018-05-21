@@ -26,7 +26,7 @@ class BurgerSummary extends Component{
                     {summary}
                 </ul>
                 <p>Total: <strong> {this.props.totalPrice.toFixed(2)} € </strong> </p>
-                <input type='text' onChange={(event) => this.props.onBurgerNameChanged(event.target.value)} value={this.props.nameInput.value} />
+                <input placeholder='Burger Name' id='name' type='text' onChange={(event) => this.props.onBurgerNameChanged(event.target.value)} value={this.props.nameInput.value} />
                 {validationMsg}
                 <p>Add to menu?</p>
                 <Button buttonType='Success' clicked={this.props.continue} isDisabled={!this.props.nameInput.isValid}>ADD</Button>
