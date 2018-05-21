@@ -1,6 +1,7 @@
 //ACTION CREATORS FOR BURGER BUILDER
 
 import * as actionTypes from './actionTypes';
+import axios from '../../axios-firebase';
 
 export const addIngredient = (name) => {
     return{
@@ -35,3 +36,34 @@ export const changeBurgerName= (changedName) => {
     }
 }
 
+export const addToMenuSuccess= () => {
+    return{
+        type: actionTypes.ADD_TO_MENU_SUCCESS
+    }
+}
+
+export const addToMenuFail= (error) => {
+    return{
+        type: actionTypes.ADD_TO_MENU_FAIL,
+        error: error
+    }
+}
+
+export const addToMenuStart=()=>{
+    return{
+        type: actionTypes.ADD_TO_MENU_START
+    }
+}
+
+export const addToMenu = (burgerData) => {
+    return dispatch =>{
+        dispatch( addToMenuStart() );
+        axios.post('/burgers.json',burgerData)
+            .then(response =>{
+                dispatch( cancelAddingToMenu() );
+                console.log(response.data);
+                dispatch( addToMenuSuccess() );
+            })
+            .catch(error => dispatch(addToMenuFail(error)) );
+    };
+}

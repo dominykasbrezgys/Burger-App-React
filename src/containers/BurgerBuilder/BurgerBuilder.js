@@ -12,10 +12,6 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as burgerBuilderActions from '../../store/actions/index';
 
 class BurgerBuilder extends Component{
-    //Decided to leave it away from redux since it only hold state of the UI
-    state = {
-        loading: false
-    }
 
     canBeAdded (ingredients) {
         const sum = Object.keys(ingredients)
@@ -30,19 +26,12 @@ class BurgerBuilder extends Component{
 
     addToMenuHandler = () => {
         //POST request
-        this.setState({loading:true});
         const burger = {
             burgerName: this.props.burgerNameInput.value,
             ingredients: this.props.ings,
             price: this.props.price
         };
-        axios.post('/burgers.json',burger)
-            .then(response =>{
-                this.props.onAddingToMenuCancelled();
-                this.setState({loading: false});
-                this.props.history.push('/menu');
-            })
-            .catch(error => this.setState({loading: false}) );
+        this.props.onAddToMenu(burger)
     }
 
     render(){
@@ -58,7 +47,7 @@ class BurgerBuilder extends Component{
             cancel={this.props.onAddingToMenuCancelled}
             continue={this.addToMenuHandler} />;
 
-        if (this.state.loading){
+        if (this.props.loading){
             burgerSummary = <Spinner/>
         }
         return(
@@ -81,10 +70,11 @@ class BurgerBuilder extends Component{
 
 const mapStateToProps = state => {
     return {
-        ings: state.ingredients,
-        price: state.totalPrice,
-        burgerNameInput: state.burgerNameInput,
-        adding: state.addingToMenu
+        ings: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice,
+        burgerNameInput: state.burgerBuilder.burgerNameInput,
+        adding: state.burgerBuilder.addingToMenu,
+        loading: state.burgerBuilder.loading
     };
 }
 
@@ -93,7 +83,8 @@ const mapDispatchToProps = dispatch => {
         onIngredientAdded: (ingName) => dispatch(burgerBuilderActions.addIngredient(ingName)),
         onIngredientRemoved: (ingName) => dispatch(burgerBuilderActions.removeIngredient(ingName)),
         onAddingToMenuCancelled: () => dispatch(burgerBuilderActions.cancelAddingToMenu()),
-        onAddingToMenuEnabled: () => dispatch(burgerBuilderActions.enableAddingToMenu())
+        onAddingToMenuEnabled: () => dispatch(burgerBuilderActions.enableAddingToMenu()),
+        onAddToMenu: (burgerData) => dispatch(burgerBuilderActions.addToMenu(burgerData))
     }
 }
 

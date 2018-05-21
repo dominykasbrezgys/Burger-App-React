@@ -1,14 +1,13 @@
 import React,{Component} from 'react';
+import {connect} from 'react-redux';
+
 import MenuGrid from '../../components/MenuGrid/MenuGrid';
 import Spinner from '../../components/UI/Spinner/Spinner'
 import axios from '../../axios-firebase';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import * as menuActions from '../../store/actions/index';
 
 class Menu extends Component {
-    state = {
-        burgers: [],
-        loading: false
-    }
 
     eatMeHandler = (burgerID) =>{
         axios.get('/burgers.json')
@@ -31,26 +30,28 @@ class Menu extends Component {
     }
 
     componentDidMount(){
-        axios.get('/burgers.json')
-        .then(res =>{
-            const fetchedBurgers = [];
-            for (let key in res.data){
-                fetchedBurgers.push({
-                    ...res.data[key],
-                    id: key
-                });
-            }
-            this.setState({burgers: fetchedBurgers,loading:false})
-        })
-        .catch(error => this.setState({loading:false}));
+        this.props.onFetchBurgers();
     }
 
     render(){
-        return this.state.loading ? <Spinner/> : 
+        return this.props.loading ? <Spinner/> : 
             <MenuGrid 
-                burgers = {this.state.burgers} 
+                burgers = {this.props.burgers} 
                 eatMe ={this.eatMeHandler} />
     }
 }
 
-export default withErrorHandler(Menu,axios);
+const mapStateToProps = state =>{
+    return {
+        burgers: state.menu.burgers,
+        loading: state.menu.loading
+    }
+}
+
+const mapDispatchToState = dispatch =>{
+    return {
+        onFetchBurgers: () => dispatch(menuActions.fetchBurgers())
+    };
+}
+
+export default connect(mapStateToProps,mapDispatchToState)(withErrorHandler(Menu,axios));

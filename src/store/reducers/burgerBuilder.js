@@ -14,7 +14,8 @@ const initialState = {
             isValid: false,
             touched: false
         },
-        addingToMenu: false
+        addingToMenu: false,
+        loading: false
 }
 
 const INGREDIENT_PRICES = {
@@ -69,9 +70,26 @@ const reducer = (state=initialState, action) => {
                 ...state,
                 addingToMenu: true
             };
+        case actionTypes.ADD_TO_MENU_START:
+            return {
+                ...state,
+                loading: true
+            };
+        case actionTypes.ADD_TO_MENU_SUCCESS:
+            return {
+                ...state,
+                loading: false
+            };
+        case actionTypes.ADD_TO_MENU_FAIL:
+            return {
+                ...state,
+                loading: false
+            };
         default:
             return state;
     }
 }
-
+export const ADD_TO_MENU_START = 'ADD_TO_MENU_START';
+export const ADD_TO_MENU_SUCCESS = 'ADD_TO_MENU_SUCCESS';
+export const ADD_TO_MENU_FAIL = 'ADD_TO_MENU_FAIL';
 export default reducer;

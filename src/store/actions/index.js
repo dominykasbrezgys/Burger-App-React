@@ -1,8 +1,12 @@
-export { addIngredient, 
+export { 
+        addIngredient, 
         removeIngredient,
         changeBurgerName,
         cancelAddingToMenu,
-        enableAddingToMenu
+        enableAddingToMenu,
+        addToMenu
 } from './burgerBuilder';
 
-export {} from './addToMenu';
+export {
+        fetchBurgers
+} from './menu';

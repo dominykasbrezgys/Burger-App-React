@@ -38,7 +38,7 @@ class BurgerSummary extends Component{
 
 const mapStateToProps = state => {
     return {
-        nameInput: state.burgerNameInput
+        nameInput: state.burgerBuilder.burgerNameInput
     };
 }
 
