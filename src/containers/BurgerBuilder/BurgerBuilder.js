@@ -9,7 +9,7 @@ import BurgerSummary from '../../components/Burger/BurgerSummary/BurgerSummary';
 import axios from '../../axios-firebase';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import * as actionTypes from '../../store/actions';
+import * as burgerBuilderActions from '../../store/actions/index';
 
 class BurgerBuilder extends Component{
     //Decided to leave it away from redux since it only hold state of the UI
@@ -90,10 +90,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onIngredientAdded: (ingName) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName: ingName}),
-        onIngredientRemoved: (ingName) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingName}),
-        onAddingToMenuCancelled: () => dispatch({type: actionTypes.CANCEL_ADDING_TO_MENU}),
-        onAddingToMenuEnabled: () => dispatch({type: actionTypes.ENABLE_ADDING_TO_MENU})
+        onIngredientAdded: (ingName) => dispatch(burgerBuilderActions.addIngredient(ingName)),
+        onIngredientRemoved: (ingName) => dispatch(burgerBuilderActions.removeIngredient(ingName)),
+        onAddingToMenuCancelled: () => dispatch(burgerBuilderActions.cancelAddingToMenu()),
+        onAddingToMenuEnabled: () => dispatch(burgerBuilderActions.enableAddingToMenu())
     }
 }
 

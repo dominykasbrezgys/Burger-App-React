@@ -2,7 +2,7 @@ import React,{ Component } from 'react';
 import { connect } from 'react-redux';
 import Aux from '../../../hoc/Aux/Aux';
 import Button from '../../UI/Button/Button';
-import * as actionTypes from '../../../store/actions';
+import * as burgerBuilderActions from '../../../store/actions/index';
 
 class BurgerSummary extends Component{
     render(){
@@ -44,7 +44,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onBurgerNameChanged: (newValue) => dispatch({type : actionTypes.CHANGE_BURGER_NAME, newName: newValue} )
+        onBurgerNameChanged: (newValue) => dispatch( burgerBuilderActions.changeBurgerName(newValue) )
     }
 }
 
