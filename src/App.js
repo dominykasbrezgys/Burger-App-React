@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import Layout from './hoc/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 import Menu from './containers/Menu/Menu';
+import NotFound from './components/NotFound/NotFound';
 
 class App extends Component {
   render() {
@@ -10,8 +11,9 @@ class App extends Component {
       <div>
         <Layout>
           <Switch>
-            <Route path='/menu' component={Menu}/>
-            <Route path='/' component={BurgerBuilder}/>
+            <Route path='/menu' exact component={Menu}/>
+            <Route path='/' exact component={BurgerBuilder}/>
+            <Route component={ NotFound }/>
           </Switch>
         </Layout>
       </div>
