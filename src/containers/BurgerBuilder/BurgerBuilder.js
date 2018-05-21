@@ -12,13 +12,8 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actionTypes from '../../store/actions';
 
 class BurgerBuilder extends Component{
+    //Decided to leave it away from redux since it only hold state of the UI
     state = {
-        burgerNameInput: {
-            value:'',
-            isValid: false,
-            touched: false
-        },
-        addingToMenu: false,
         loading: false
     }
 
@@ -33,50 +28,21 @@ class BurgerBuilder extends Component{
          return sum > 0;
     }
 
-    addingHandler = () => {
-        this.setState({addingToMenu:true});
-    }
-
-    addingCancelHandler = () =>{
-        const updatedBurgerNameInput = {
-            ...this.state.burgerNameInput
-        }
-        updatedBurgerNameInput.value = '';
-        updatedBurgerNameInput.isValid =  false;
-        updatedBurgerNameInput.touched = false;
-
-        this.setState({
-            addingToMenu: false,
-            burgerNameInput: updatedBurgerNameInput
-        });
-    }
-
     addToMenuHandler = () => {
         //POST request
         this.setState({loading:true});
         const burger = {
-            burgerName: this.state.burgerName,
-            ingredients: this.state.ingredients,
+            burgerName: this.props.burgerNameInput.value,
+            ingredients: this.props.ings,
             price: this.props.price
         };
         axios.post('/burgers.json',burger)
             .then(response =>{
-                this.setState({loading: false, addingToMenu: false});
+                this.props.onAddingToMenuCancelled();
+                this.setState({loading: false});
                 this.props.history.push('/menu');
             })
-            .catch(error => this.setState({loading: false, addingToMenu: false}) );
-    }
-
-    nameChangedHandler = (event) =>{
-        const newBurgerName = event.target.value;
-        const updatedBurgerNameInput = {
-            ...this.state.burgerNameInput
-        }
-        updatedBurgerNameInput.value = newBurgerName;
-        updatedBurgerNameInput.isValid =  newBurgerName.trim() !== '';
-        updatedBurgerNameInput.touched = true;
-
-        this.setState({burgerNameInput: updatedBurgerNameInput });
+            .catch(error => this.setState({loading: false}) );
     }
 
     render(){
@@ -89,18 +55,15 @@ class BurgerBuilder extends Component{
         let burgerSummary = <BurgerSummary 
             ingredients={this.props.ings} 
             totalPrice = {this.props.price}
-            burgerNameHandler ={this.nameChangedHandler}
-            cancel={this.addingCancelHandler}
-            continue={this.addToMenuHandler}
-            nameInput ={this.state.burgerNameInput}/>;
+            cancel={this.props.onAddingToMenuCancelled}
+            continue={this.addToMenuHandler} />;
 
         if (this.state.loading){
             burgerSummary = <Spinner/>
         }
-
         return(
             <Aux>
-                <Modal show={this.state.addingToMenu} modalClosed={this.addingCancelHandler} >
+                <Modal show={this.props.adding} modalClosed={this.props.onAddingToMenuCancelled} >
                     {burgerSummary}
                 </Modal>
                 <Burger ingredients={this.props.ings} />
@@ -109,7 +72,7 @@ class BurgerBuilder extends Component{
                     removeIngredient ={this.props.onIngredientRemoved}
                     disabled = {disabledInfo}
                     canBeAdded = {this.canBeAdded(this.props.ings)}
-                    addToMenu = {this.addingHandler}
+                    addToMenu = {this.props.onAddingToMenuEnabled}
                     price = {this.props.price}/>
             </Aux>
         );
@@ -119,14 +82,18 @@ class BurgerBuilder extends Component{
 const mapStateToProps = state => {
     return {
         ings: state.ingredients,
-        price: state.totalPrice
+        price: state.totalPrice,
+        burgerNameInput: state.burgerNameInput,
+        adding: state.addingToMenu
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onIngredientAdded: (ingName) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName: ingName}),
-        onIngredientRemoved: (ingName) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingName})
+        onIngredientRemoved: (ingName) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingName}),
+        onAddingToMenuCancelled: () => dispatch({type: actionTypes.CANCEL_ADDING_TO_MENU}),
+        onAddingToMenuEnabled: () => dispatch({type: actionTypes.ENABLE_ADDING_TO_MENU})
     }
 }
 

@@ -8,7 +8,13 @@ const initialState = {
             cheese: 0,
             meat: 0
         },
-        totalPrice : 2
+        totalPrice : 2 ,
+        burgerNameInput: {
+            value:'',
+            isValid: false,
+            touched: false
+        },
+        addingToMenu: false
 }
 
 const INGREDIENT_PRICES = {
@@ -31,14 +37,38 @@ const reducer = (state=initialState, action) => {
                 totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
             };
         case actionTypes.REMOVE_INGREDIENT:
-        return {
-            ...state,
-            ingredients: {
-                ...state.ingredients,
-                [action.ingredientName]: state.ingredients[action.ingredientName] - 1
-            },
-            totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
-        };
+            return {
+                ...state,
+                ingredients: {
+                    ...state.ingredients,
+                    [action.ingredientName]: state.ingredients[action.ingredientName] - 1
+                },
+                totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
+            };
+        case actionTypes.CHANGE_BURGER_NAME:
+            return {
+                ...state,
+                burgerNameInput : {
+                    value: action.newName,
+                    isValid :  action.newName.trim() !== '',
+                    touched: true
+                }
+            };
+        case actionTypes.CANCEL_ADDING_TO_MENU:
+            return {
+                ...state,
+                burgerNameInput : {
+                    value: '',
+                    isValid : false,
+                    touched: false
+                },
+                addingToMenu: false
+            };
+        case actionTypes.ENABLE_ADDING_TO_MENU:
+            return {
+                ...state,
+                addingToMenu: true
+            };
         default:
             return state;
     }

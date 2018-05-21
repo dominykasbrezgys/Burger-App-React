@@ -1,9 +1,10 @@
-import React,{Component} from 'react';
+import React,{ Component } from 'react';
+import { connect } from 'react-redux';
 import Aux from '../../../hoc/Aux/Aux';
-import Button from '../../UI/Button/Button'
+import Button from '../../UI/Button/Button';
+import * as actionTypes from '../../../store/actions';
 
 class BurgerSummary extends Component{
-
     render(){
         const summary = Object.keys(this.props.ingredients)
         .map(key => {
@@ -25,7 +26,7 @@ class BurgerSummary extends Component{
                     {summary}
                 </ul>
                 <p>Total: <strong> {this.props.totalPrice.toFixed(2)} € </strong> </p>
-                <input type='text' onChange={this.props.burgerNameHandler} value={this.props.nameInput.value}/>
+                <input type='text' onChange={(event) => this.props.onBurgerNameChanged(event.target.value)} value={this.props.nameInput.value} />
                 {validationMsg}
                 <p>Add to menu?</p>
                 <Button buttonType='Success' clicked={this.props.continue} isDisabled={!this.props.nameInput.isValid}>ADD</Button>
@@ -35,4 +36,16 @@ class BurgerSummary extends Component{
     }
 }
 
-export default BurgerSummary;
+const mapStateToProps = state => {
+    return {
+        nameInput: state.burgerNameInput
+    };
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onBurgerNameChanged: (newValue) => dispatch({type : actionTypes.CHANGE_BURGER_NAME, newName: newValue} )
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(BurgerSummary);
