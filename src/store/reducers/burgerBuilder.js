@@ -87,6 +87,7 @@ const reducer = (state=initialState, action) => {
                     cheese: 0,
                     meat: 0
                 },
+                totalPrice: 2,
                 loading: false,
                 successfullyAdded: true
             };
