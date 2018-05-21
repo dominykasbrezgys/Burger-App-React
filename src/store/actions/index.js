@@ -8,5 +8,6 @@ export {
 } from './burgerBuilder';
 
 export {
-        fetchBurgers
+        fetchBurgers,
+        eatMe
 } from './menu';

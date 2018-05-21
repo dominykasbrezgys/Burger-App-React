@@ -40,3 +40,28 @@ export const fetchBurgers = () => {
             .catch(error => dispatch(fetchBurgersFail(error)) );
     }
 }
+
+export const eatMeFail = (error) => {
+    return{
+        type: actionTypes.EAT_ME_FAIL,
+        error: error
+    }
+}
+
+export const eatMe = (burgerID) => {
+    return dispatch => {
+        axios.get('/burgers.json')
+            .then(res =>{
+                const burger = res.data[burgerID];
+                let alertMsg = 'Burger not found. Sorry.';
+                if(burger){
+                    alertMsg = (
+                        'GET Request sent!\n'+
+                        'Unique ID stored in Firebase: '+burgerID+'\n'
+                    );
+                }
+                alert(alertMsg);
+            })
+            .catch(error => dispatch(eatMeFail(error)) );
+    }
+} 

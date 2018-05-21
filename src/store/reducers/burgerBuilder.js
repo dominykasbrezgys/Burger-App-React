@@ -89,7 +89,5 @@ const reducer = (state=initialState, action) => {
             return state;
     }
 }
-export const ADD_TO_MENU_START = 'ADD_TO_MENU_START';
-export const ADD_TO_MENU_SUCCESS = 'ADD_TO_MENU_SUCCESS';
-export const ADD_TO_MENU_FAIL = 'ADD_TO_MENU_FAIL';
+
 export default reducer;

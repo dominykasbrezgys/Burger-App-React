@@ -10,23 +10,7 @@ import * as menuActions from '../../store/actions/index';
 class Menu extends Component {
 
     eatMeHandler = (burgerID) =>{
-        axios.get('/burgers.json')
-            .then(res =>{
-                const burger = res.data[burgerID];
-                let alertMsg = 'Burger not found. Sorry.';
-                if(burger){
-                    alertMsg = (
-                        'Unique ID stored in Firebase: '+burgerID+'\n'+
-                        'Burger Name: '+burger.burgerName+'\n'+
-                        'Ingredients: '+'\n'+
-                        Object.keys(burger.ingredients).map(ingredientKey =>{
-                            return ingredientKey+': '+burger.ingredients[ingredientKey]+'\n';
-                        })
-                    );
-                }
-                alert(alertMsg);
-            })
-            .catch(error => alert(error));
+        this.props.onEatMe(burgerID);
     }
 
     componentDidMount(){
@@ -50,7 +34,8 @@ const mapStateToProps = state =>{
 
 const mapDispatchToState = dispatch =>{
     return {
-        onFetchBurgers: () => dispatch(menuActions.fetchBurgers())
+        onFetchBurgers: () => dispatch(menuActions.fetchBurgers()),
+        onEatMe: (burgerID) => dispatch(menuActions.eatMe(burgerID))
     };
 }
 

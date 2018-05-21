@@ -61,7 +61,6 @@ export const addToMenu = (burgerData) => {
         axios.post('/burgers.json',burgerData)
             .then(response =>{
                 dispatch( cancelAddingToMenu() );
-                console.log(response.data);
                 dispatch( addToMenuSuccess() );
             })
             .catch(error => dispatch(addToMenuFail(error)) );

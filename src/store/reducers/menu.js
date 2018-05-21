@@ -23,6 +23,10 @@ const reducer = (state=initialState, action) => {
                 ...state,
                 loading: false //TODO: store Error in the state?
             }
+        case actionTypes.EAT_ME_FAIL:
+            return {
+                ...state, //TODO: store Error in the state?
+            }
         default:
             return state
     }
