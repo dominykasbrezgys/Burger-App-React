@@ -12,7 +12,7 @@ import Success from '../../components/UI/Success/Success';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as burgerBuilderActions from '../../store/actions/index';
 
-class BurgerBuilder extends Component{
+export class BurgerBuilder extends Component{
 
     canBeAdded (ingredients) {
         const sum = Object.keys(ingredients)
